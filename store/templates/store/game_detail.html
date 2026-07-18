@@ -1,0 +1,27 @@
+<h1>{{ game.name }}</h1>
+
+
+<p>
+Цена: {{ game.price }} ₽
+</p>
+
+
+<p>
+Жанр: {{ game.genre }}
+</p>
+
+
+<p>
+Дата выхода: {{ game.release_date }}
+</p>
+
+
+<p>
+Описание:
+{{ game.description }}
+</p>
+
+
+<a href="{% url 'games' %}">
+    Назад к играм
+</a>

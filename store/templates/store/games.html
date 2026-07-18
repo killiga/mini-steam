@@ -1,3 +1,12 @@
 <h1>Steam Mini</h1>
 
-<p>Страница игр работает</p>
+
+{% for game in games %}
+
+<a href="{% url 'game_detail' game.id %}">
+    {{ game.name }}
+</a>
+
+<br>
+
+{% endfor %}
