@@ -16,16 +16,22 @@
 <hr>
 
 
+<div style="margin-bottom: 15px;">
+    <a href="?sort=price_asc">Дешевые</a> | 
+    <a href="?sort=price_desc">Дорогие</a> | 
+    <a href="?sort=date">Новые</a>
+</div>
 
-{% for game in games %}
+<hr> 
 
-<a href="{% url 'game_detail' game.id %}">
-    {{ game.name }}
-</a>
-
-<br>
-
-{% endfor %}
+<div style="margin-top: 15px;">
+    {% for game in games %}
+    <a href="{% url 'game_detail' game.id %}">
+        {{ game.name }}
+    </a>
+    <br>
+    {% endfor %}
+</div>
 
 
 {% if search and not games %}
