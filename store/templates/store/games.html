@@ -1,5 +1,21 @@
 <h1>Steam Mini</h1>
 
+<form method="GET">
+
+    <input
+        type="text"
+        name="search"
+        placeholder="Введите игру">
+
+    <button type="submit">
+        Найти
+    </button>
+
+</form>
+
+<hr>
+
+
 
 {% for game in games %}
 
@@ -10,3 +26,16 @@
 <br>
 
 {% endfor %}
+
+
+{% if search and not games %}
+
+    <h2>
+        Игра не найдена 😔
+    </h2>
+
+    <p>
+        Попробуйте изменить запрос
+    </p>
+
+{% endif %}

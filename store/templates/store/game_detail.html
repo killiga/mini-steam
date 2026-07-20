@@ -21,6 +21,21 @@
 {{ game.description }}
 </p>
 
+<form action="{% url 'buy_game' game.id %}" method="POST">
+
+    {% csrf_token %}
+
+    {% if owned %}
+
+    <p>✓ Уже в библиотеке</p>
+
+    {% else %}
+
+    <button type="submit">Купить</button>
+
+    {% endif %}
+
+</form>
 
 <a href="{% url 'games' %}">
     Назад к играм
