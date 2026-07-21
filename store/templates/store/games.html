@@ -1,35 +1,19 @@
-<h1>Steam Mini</h1>
+{% extends "store/base.html" %}
 
 
-{% if request.user.is_authenticated %}
-
-<p>
-Привет, {{ request.user.username }}!
-
-<a href="{% url 'logout' %}">Выйти</a>
+{% block content %}
 
 
-<a href="{% url 'library' %}">Моя библиотека</a>
-
-</p>
-
-{% else %}
-
-<a href="{% url 'login' %}">Войти</a>
-
-|
-
-<a href="{% url 'register' %}">Регистрация</a>
-
-{% endif %}
+<h2>Каталог игр</h2>
 
 
 <form method="GET">
 
-    <input
-        type="text"
-        name="search"
-        placeholder="Введите игру">
+    <input 
+        type="text" 
+        name="search" 
+        placeholder="Введите игру"
+    >
 
     <button type="submit">
         Найти
@@ -37,35 +21,68 @@
 
 </form>
 
+
 <hr>
 
 
 <div style="margin-bottom: 15px;">
-    <a href="?sort=price_asc">Дешевые</a> | 
-    <a href="?sort=price_desc">Дорогие</a> | 
-    <a href="?sort=date">Новые</a>
-</div>
 
-<hr> 
-
-<div style="margin-top: 15px;">
-    {% for game in games %}
-    <a href="{% url 'game_detail' game.id %}">
-        {{ game.name }}
+    <a href="?sort=price_asc">
+        Дешевые
     </a>
-    <br>
-    {% endfor %}
+
+    |
+
+    <a href="?sort=price_desc">
+        Дорогие
+    </a>
+
+    |
+
+    <a href="?sort=date">
+        Новые
+    </a>
+
 </div>
+
+
+<hr>
 
 
 {% if search and not games %}
 
     <h2>
-        Игра не найдена 😔
+        Игра "{{ search }}" не найдена 😔
     </h2>
 
     <p>
         Попробуйте изменить запрос
     </p>
 
+
+{% else %}
+
+
+    {% for game in games %}
+
+        <div style="margin-bottom: 10px;">
+
+            <a href="{% url 'game_detail' game.id %}">
+                {{ game.name }}
+            </a>
+
+            <br>
+
+            Цена:
+            {{ game.price }} ₽
+
+        </div>
+
+
+    {% endfor %}
+
+
 {% endif %}
+
+
+{% endblock %}

@@ -97,14 +97,18 @@ def game_detail(request, id):
 
     game = get_object_or_404(Game, id=id)
 
-    owned = Purchase.objects.filter(
-    user=request.user,
-    game=game
-    ).exists()
+    owned = False
+
+    if request.user.is_authenticated:
+        owned = Purchase.objects.filter(
+            user=request.user,
+            game=game
+        ).exists()
+
 
     return render(request, "store/game_detail.html", {
-    "game": game,
-    "owned": owned
+        "game": game,
+        "owned": owned
     })
 
 

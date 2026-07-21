@@ -1,42 +1,51 @@
-<h1>{{ game.name }}</h1>
+{% extends "store/base.html" %}
+
+
+{% block content %}
+
+
+<h2>
+    {{ game.name }}
+</h2>
 
 
 <p>
-Цена: {{ game.price }} ₽
+    Жанр:
+    {{ game.genre }}
 </p>
 
 
 <p>
-Жанр: {{ game.genre }}
+    Описание:
+    {{ game.description }}
 </p>
 
 
 <p>
-Дата выхода: {{ game.release_date }}
+    Цена:
+    {{ game.price }} ₽
 </p>
 
 
 <p>
-Описание:
-{{ game.description }}
+    Дата выхода:
+    {{ game.release_date }}
 </p>
 
-<form action="{% url 'buy_game' game.id %}" method="POST">
+{% if owned %}
 
-    {% csrf_token %}
+    <p>
+        ✅ Игра уже куплена
+    </p>
 
-    {% if owned %}
 
-    <p>✓ Уже в библиотеке</p>
+{% else %}
 
-    {% else %}
+    <a href="{% url 'buy_game' game.id %}">
+        Купить игру
+    </a>
 
-    <button type="submit">Купить</button>
 
-    {% endif %}
+{% endif %}
 
-</form>
-
-<a href="{% url 'games' %}">
-    Назад к играм
-</a>
+{% endblock %}

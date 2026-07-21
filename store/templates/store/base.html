@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>
+Steam Mini
+</title>
+
+</head>
+
+
+<body>
+
+
+<h1>
+Steam Mini
+</h1>
+
+
+<nav>
+
+{% if request.user.is_authenticated %}
+
+<p>
+Привет, {{ request.user.username }}
+
+<a href="{% url 'logout' %}">
+Выйти
+</a>
+
+<a href="{% url 'library' %}">
+Моя библиотека
+</a>
+
+</p>
+
+
+{% else %}
+
+<a href="{% url 'login' %}">
+Войти
+</a>
+
+<a href="{% url 'register' %}">
+Регистрация
+</a>
+
+
+{% endif %}
+
+</nav>
+
+
+<hr>
+
+
+{% block content %}
+
+{% endblock %}
+
+
+</body>
+
+</html>
