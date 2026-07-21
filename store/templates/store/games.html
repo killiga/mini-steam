@@ -1,5 +1,29 @@
 <h1>Steam Mini</h1>
 
+
+{% if request.user.is_authenticated %}
+
+<p>
+Привет, {{ request.user.username }}!
+
+<a href="{% url 'logout' %}">Выйти</a>
+
+
+<a href="{% url 'library' %}">Моя библиотека</a>
+
+</p>
+
+{% else %}
+
+<a href="{% url 'login' %}">Войти</a>
+
+|
+
+<a href="{% url 'register' %}">Регистрация</a>
+
+{% endif %}
+
+
 <form method="GET">
 
     <input

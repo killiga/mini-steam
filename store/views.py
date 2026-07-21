@@ -1,6 +1,66 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Game, Purchase
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, logout
+
+
+def logout_user(request):
+
+    logout(request)
+
+    return redirect("games")
+
+
+def login_user(request):
+
+    if request.method == "POST":
+
+        form = AuthenticationForm(
+            data=request.POST
+        )
+
+        if form.is_valid():
+
+                login(
+                    request,
+                    form.get_user()
+                )
+
+                return redirect("games")
+    
+    else:
+
+        form = AuthenticationForm()
+
+    return render(
+        request,
+        "store/login.html",
+        {
+            "form": form
+        }
+    )
+
+
+
+def register(request):
+    
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect("login")
+
+    else:
+
+        form = UserCreationForm()
+
+    return render(request, "store/register.html", {
+        "form": form
+    })
 
 
 def games(request):
