@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Game, Purchase
+from .models import Game, Purchase, Review
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
@@ -96,7 +96,7 @@ def games(request):
 def game_detail(request, id):
 
     game = get_object_or_404(Game, id=id)
-
+    reviews = game.reviews.all()
     owned = False
 
     if request.user.is_authenticated:
@@ -107,8 +107,9 @@ def game_detail(request, id):
 
 
     return render(request, "store/game_detail.html", {
-        "game": game,
-        "owned": owned
+    "game": game,
+    "owned": owned,
+    "reviews": reviews,
     })
 
 

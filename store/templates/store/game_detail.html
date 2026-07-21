@@ -48,4 +48,34 @@
 
 {% endif %}
 
+<hr>
+
+<h3>Отзывы</h3>
+
+{% if reviews %}
+
+    {% for review in reviews %}
+
+        <div style="margin-bottom:15px;">
+
+            <strong>{{ review.user.username }}</strong>
+
+            <br>
+
+            ⭐ {{ review.rating }}/5
+
+            <br>
+
+            {{ review.comment }}
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>Пока отзывов нет.</p>
+
+{% endif %}
+
 {% endblock %}
