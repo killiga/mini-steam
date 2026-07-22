@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Game(models.Model):
 
@@ -45,7 +46,12 @@ class Review(models.Model):
     on_delete=models.CASCADE,
     related_name="reviews"
     )
-    rating = models.IntegerField()
+    rating = models.IntegerField(
+    validators=[
+        MinValueValidator(1),
+        MaxValueValidator(5)
+    ]
+    )
     comment = models.TextField()
     created_at = models.DateTimeField(
         auto_now_add=True

@@ -3,6 +3,7 @@ from .models import Game, Purchase, Review
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
+from .forms import ReviewForm
 
 
 def logout_user(request):
@@ -96,22 +97,72 @@ def games(request):
 def game_detail(request, id):
 
     game = get_object_or_404(Game, id=id)
+
     reviews = game.reviews.all()
+
     owned = False
+    can_review = False
+
 
     if request.user.is_authenticated:
+
         owned = Purchase.objects.filter(
             user=request.user,
             game=game
         ).exists()
 
 
-    return render(request, "store/game_detail.html", {
-    "game": game,
-    "owned": owned,
-    "reviews": reviews,
-    })
+        if owned:
 
+            already_reviewed = Review.objects.filter(
+                user=request.user,
+                game=game
+            ).exists()
+
+
+            can_review = not already_reviewed
+
+
+
+    if request.method == "POST" and can_review:
+
+        form = ReviewForm(request.POST)
+
+
+        if form.is_valid():
+
+            review = form.save(commit=False)
+
+            review.user = request.user
+
+            review.game = game
+
+            review.save()
+
+
+            return redirect(
+                "game_detail",
+                id=game.id
+            )
+
+
+    else:
+
+        form = ReviewForm()
+
+
+
+    return render(
+        request,
+        "store/game_detail.html",
+        {
+            "game": game,
+            "owned": owned,
+            "reviews": reviews,
+            "form": form,
+            "can_review": can_review,
+        }
+    )
 
 @login_required
 def buy_game(request, id):
